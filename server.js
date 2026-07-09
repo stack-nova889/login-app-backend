@@ -8,13 +8,13 @@ import cookieParser from 'cookie-parser';
 import authRoutes from './routes/authRoutes.js';
 const app = express();
 
-await connectDB();
+// await connectDB();
 app.use(express.json());
 app.use(cookieParser());
 
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: true,
     credentials: true,
   }),
 );
@@ -23,7 +23,23 @@ app.use('/api/auth', authRoutes);
 app.get('/', (req, res) => {
   res.send('API Working 🚀');
 });
+
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`App listening in port:${PORT}`);
-});
+// app.listen(PORT, '0.0.0.0', () => {
+//   console.log(`App listening in port:${PORT}`);
+// });
+
+const startServer = async () => {
+  try {
+    await connectDB();
+
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`App listening on port ${PORT}`);
+    });
+  } catch (error) {
+    console.log('Database connection failed:', error);
+    process.exit(1);
+  }
+};
+
+startServer();
