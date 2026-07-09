@@ -8,7 +8,6 @@ import cookieParser from 'cookie-parser';
 import authRoutes from './routes/authRoutes.js';
 const app = express();
 
-
 await connectDB();
 app.use(express.json());
 app.use(cookieParser());
@@ -25,6 +24,6 @@ app.get('/', (req, res) => {
   res.send('API Working 🚀');
 });
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`App listening in port:${PORT}`);
 });
